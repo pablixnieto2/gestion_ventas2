@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Mi Aplicación{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'lista_clientes' %}">Clientes</a>
+            <a href="{% url 'lista_productos_venta' %}">Productos de Venta</a>
+            <a href="{% url 'lista_ventas' %}">Ventas</a>
+            <!-- Añade más enlaces según necesites -->
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

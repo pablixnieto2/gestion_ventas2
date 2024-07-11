@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle de Producto de Venta</title>
+</head>
+<body>
+    <h1>Detalle de Producto de Venta</h1>
+    <p>Nombre: {{ producto.nombre }}</p>
+    <p>Categoría: {{ producto.categoria }}</p>
+    <p>Color: {{ producto.color }}</p>
+    <p>Talla: {{ producto.talla }}</p>
+    <p>PVP: {{ producto.pvp }}</p>
+    <p>Estado: {{ producto.estado }}</p>
+    <a href="{% url 'editar_producto_venta' producto.pk %}">Editar</a>
+    <a href="{% url 'eliminar_producto_venta' producto.pk %}">Eliminar</a>
+    <a href="{% url 'lista_productos_venta' %}">Volver a la Lista</a>
+</body>
+</html>
