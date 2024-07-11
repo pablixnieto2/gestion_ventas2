@@ -4,7 +4,7 @@ from .forms import ClienteForm
 
 def lista_clientes(request):
     clientes = Cliente.objects.all()
-    return render(request, 'clientes/lista.html', {'clientes': clientes})
+    return render(request, 'clientes/lista.html')
 
 def detalle_cliente(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
