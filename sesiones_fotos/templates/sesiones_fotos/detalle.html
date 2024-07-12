@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle de Sesión de Foto{% endblock %}
+
+{% block content %}
+<h1>Detalle de Sesión de Foto</h1>
+<p>ID: {{ sesion_foto.id_sesion }}</p>
+<p>Fotógrafo: {{ sesion_foto.fotografo }}</p>
+<p>Ubicación: {{ sesion_foto.ubicacion }}</p>
+<a href="{% url 'editar_sesion_foto' sesion_foto.pk %}">Editar</a>
+<a href="{% url 'eliminar_sesion_foto' sesion_foto.pk %}">Eliminar</a>
+<a href="{% url 'lista_sesiones_fotos' %}">Volver a la Lista</a>
+{% endblock %}

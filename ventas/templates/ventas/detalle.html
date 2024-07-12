@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle de Venta{% endblock %}
+
+{% block content %}
+<h1>Detalle de Venta</h1>
+<p>ID: {{ venta.id_ventas }}</p>
+<p>Tienda: {{ venta.tienda }}</p>
+<p>Estado: {{ venta.estado_venta }}</p>
+<a href="{% url 'editar_venta' venta.pk %}">Editar</a>
+<a href="{% url 'eliminar_venta' venta.pk %}">Eliminar</a>
+<a href="{% url 'lista_ventas' %}">Volver a la Lista</a>
+{% endblock %}
