@@ -8,7 +8,7 @@ class Pedido(models.Model):
     proveedor = models.CharField(max_length=255)
     fecha_pedido = models.DateTimeField(auto_now_add=True)
     fecha_entrega = models.DateField()
-    estado = models.CharField(max_length=50, choices=[('Pendiente', 'Pendiente'), ('En Proceso', 'En Proceso'), ('Completado', 'Completado'), ('Cancelado', 'Cancelado')])
+    estado = models.CharField(max_length=50, choices=[('Pendiente', 'Pendiente'), ('En Proceso', 'En Proceso'), ('Completado', 'Completado')])
     comentarios = models.TextField(null=True, blank=True)
     history = HistoricalRecords()
 

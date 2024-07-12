@@ -3,16 +3,16 @@ from .models import SesionFotos
 from .forms import SesionFotosForm
 
 def lista_sesiones_fotos(request):
-    sesiones_fotos = SesionFotos.objects.all()
-    return render(request, 'sesiones_fotos/lista.html', {'sesiones_fotos': sesiones_fotos})
+    sesiones = SesionFotos.objects.all()
+    return render(request, 'sesiones_fotos/lista.html', {'sesiones': sesiones})
 
-def detalle_sesion_foto(request, pk):
-    sesion_foto = get_object_or_404(SesionFotos, pk=pk)
-    return render(request, 'sesiones_fotos/detalle.html', {'sesion_foto': sesion_foto})
+def detalle_sesion_fotos(request, pk):
+    sesion = get_object_or_404(SesionFotos, pk=pk)
+    return render(request, 'sesiones_fotos/detalle.html', {'sesion': sesion})
 
-def crear_sesion_foto(request):
+def crear_sesion_fotos(request):
     if request.method == 'POST':
-        form = SesionFotosForm(request.POST)
+        form = SesionFotosForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('lista_sesiones_fotos')
@@ -20,20 +20,20 @@ def crear_sesion_foto(request):
         form = SesionFotosForm()
     return render(request, 'sesiones_fotos/formulario.html', {'form': form})
 
-def editar_sesion_foto(request, pk):
-    sesion_foto = get_object_or_404(SesionFotos, pk=pk)
+def editar_sesion_fotos(request, pk):
+    sesion = get_object_or_404(SesionFotos, pk=pk)
     if request.method == 'POST':
-        form = SesionFotosForm(request.POST, instance=sesion_foto)
+        form = SesionFotosForm(request.POST, request.FILES, instance=sesion)
         if form.is_valid():
             form.save()
             return redirect('lista_sesiones_fotos')
     else:
-        form = SesionFotosForm(instance=sesion_foto)
+        form = SesionFotosForm(instance=sesion)
     return render(request, 'sesiones_fotos/formulario.html', {'form': form})
 
-def eliminar_sesion_foto(request, pk):
-    sesion_foto = get_object_or_404(SesionFotos, pk=pk)
+def eliminar_sesion_fotos(request, pk):
+    sesion = get_object_or_404(SesionFotos, pk=pk)
     if request.method == 'POST':
-        sesion_foto.delete()
+        sesion.delete()
         return redirect('lista_sesiones_fotos')
-    return render(request, 'sesiones_fotos/confirmar_eliminacion.html', {'sesion_foto': sesion_foto})
+    return render(request, 'sesiones_fotos/confirmar_eliminacion.html', {'sesion': sesion})

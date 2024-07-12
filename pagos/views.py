@@ -12,7 +12,7 @@ def detalle_pago(request, pk):
 
 def crear_pago(request):
     if request.method == 'POST':
-        form = PagoForm(request.POST)
+        form = PagoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('lista_pagos')
@@ -23,7 +23,7 @@ def crear_pago(request):
 def editar_pago(request, pk):
     pago = get_object_or_404(Pago, pk=pk)
     if request.method == 'POST':
-        form = PagoForm(request.POST, instance=pago)
+        form = PagoForm(request.POST, request.FILES, instance=pago)
         if form.is_valid():
             form.save()
             return redirect('lista_pagos')
