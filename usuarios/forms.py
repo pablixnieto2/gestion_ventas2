@@ -12,8 +12,7 @@ class CustomUserChangeForm(UserChangeForm):
         model = Usuario
         fields = ('username', 'email', 'telefono')
 
-
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ['username', 'email', 'password', 'first_name', 'last_name']
+        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'telefono']
