@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Cliente</title>
+</head>
+<body>
+    <h1>Detalles del Cliente</h1>
+    <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+    <p><strong>Apellido:</strong> {{ cliente.apellido }}</p>
+    <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+    <p><strong>Email:</strong> {{ cliente.email }}</p>
+    <p><strong>Fecha de Fiesta:</strong> {{ cliente.fecha_fiesta }}</p>
+    <p><strong>Comentarios:</strong> {{ cliente.comentarios }}</p>
+    <a href="{% url 'cliente_update' cliente.id_cliente %}">Editar</a>
+    <a href="{% url 'cliente_list' %}">Volver a la lista</a>
+</body>
+</html>

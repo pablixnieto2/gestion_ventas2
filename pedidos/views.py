@@ -1,39 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Pedido
 from .forms import PedidoForm
 
-def lista_pedidos(request):
+def pedido_list(request):
     pedidos = Pedido.objects.all()
-    return render(request, 'pedidos/lista.html', {'pedidos': pedidos})
+    return render(request, 'pedidos/pedido_list.html', {'pedidos': pedidos})
 
-def detalle_pedido(request, pk):
-    pedido = get_object_or_404(Pedido, pk=pk)
-    return render(request, 'pedidos/detalle.html', {'pedido': pedido})
+def pedido_detail(request, id):
+    pedido = get_object_or_404(Pedido, id_pedido=id)
+    return render(request, 'pedidos/pedido_detail.html', {'pedido': pedido})
 
-def crear_pedido(request):
-    if request.method == 'POST':
-        form = PedidoForm(request.POST, request.FILES)
+def pedido_create(request):
+    if request.method == "POST":
+        form = PedidoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_pedidos')
+            return HttpResponseRedirect(reverse('pedido_list'))
     else:
         form = PedidoForm()
-    return render(request, 'pedidos/formulario.html', {'form': form})
+    return render(request, 'pedidos/pedido_form.html', {'form': form})
 
-def editar_pedido(request, pk):
-    pedido = get_object_or_404(Pedido, pk=pk)
-    if request.method == 'POST':
-        form = PedidoForm(request.POST, request.FILES, instance=pedido)
+def pedido_update(request, id):
+    pedido = get_object_or_404(Pedido, id_pedido=id)
+    if request.method == "POST":
+        form = PedidoForm(request.POST, instance=pedido)
         if form.is_valid():
             form.save()
-            return redirect('lista_pedidos')
+            return HttpResponseRedirect(reverse('pedido_list'))
     else:
         form = PedidoForm(instance=pedido)
-    return render(request, 'pedidos/formulario.html', {'form': form})
+    return render(request, 'pedidos/pedido_form.html', {'form': form})
 
-def eliminar_pedido(request, pk):
-    pedido = get_object_or_404(Pedido, pk=pk)
-    if request.method == 'POST':
+def pedido_delete(request, id):
+    pedido = get_object_or_404(Pedido, id_pedido=id)
+    if request.method == "POST":
         pedido.delete()
-        return redirect('lista_pedidos')
-    return render(request, 'pedidos/confirmar_eliminacion.html', {'pedido': pedido})
+        return HttpResponseRedirect(reverse('pedido_list'))
+    return render(request, 'pedidos/pedido_confirm_delete.html', {'pedido': pedido})

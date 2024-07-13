@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Sesiones de Fotos</title>
+</head>
+<body>
+    <h1>Lista de Sesiones de Fotos</h1>
+    <a href="{% url 'sesionfoto_create' %}">Crear Nueva Sesión de Fotos</a>
+    <ul>
+        {% for sesion in sesiones %}
+            <li>
+                <a href="{% url 'sesionfoto_detail' sesion.id_sesion %}">
+                    {{ sesion.id_sesion }} - {{ sesion.cliente.nombre }} {{ sesion.cliente.apellido }}
+                </a>
+                <a href="{% url 'sesionfoto_update' sesion.id_sesion %}">Editar</a>
+                <a href="{% url 'sesionfoto_delete' sesion.id_sesion %}">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

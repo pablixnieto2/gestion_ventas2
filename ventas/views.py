@@ -1,39 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Venta
 from .forms import VentaForm
 
-def lista_ventas(request):
+def venta_list(request):
     ventas = Venta.objects.all()
-    return render(request, 'ventas/lista.html', {'ventas': ventas})
+    return render(request, 'ventas/venta_list.html', {'ventas': ventas})
 
-def detalle_venta(request, pk):
-    venta = get_object_or_404(Venta, pk=pk)
-    return render(request, 'ventas/detalle.html', {'venta': venta})
+def venta_detail(request, id):
+    venta = get_object_or_404(Venta, id_venta=id)
+    return render(request, 'ventas/venta_detail.html', {'venta': venta})
 
-def crear_venta(request):
-    if request.method == 'POST':
+def venta_create(request):
+    if request.method == "POST":
         form = VentaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('lista_ventas')
+            return HttpResponseRedirect(reverse('venta_list'))
     else:
         form = VentaForm()
-    return render(request, 'ventas/formulario.html', {'form': form})
+    return render(request, 'ventas/venta_form.html', {'form': form})
 
-def editar_venta(request, pk):
-    venta = get_object_or_404(Venta, pk=pk)
-    if request.method == 'POST':
+def venta_update(request, id):
+    venta = get_object_or_404(Venta, id_venta=id)
+    if request.method == "POST":
         form = VentaForm(request.POST, request.FILES, instance=venta)
         if form.is_valid():
             form.save()
-            return redirect('lista_ventas')
+            return HttpResponseRedirect(reverse('venta_list'))
     else:
         form = VentaForm(instance=venta)
-    return render(request, 'ventas/formulario.html', {'form': form})
+    return render(request, 'ventas/venta_form.html', {'form': form})
 
-def eliminar_venta(request, pk):
-    venta = get_object_or_404(Venta, pk=pk)
-    if request.method == 'POST':
+def venta_delete(request, id):
+    venta = get_object_or_404(Venta, id_venta=id)
+    if request.method == "POST":
         venta.delete()
-        return redirect('lista_ventas')
-    return render(request, 'ventas/confirmar_eliminacion.html', {'venta': venta})
+        return HttpResponseRedirect(reverse('venta_list'))
+    return render(request, 'ventas/venta_confirm_delete.html', {'venta': venta})

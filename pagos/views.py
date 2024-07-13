@@ -1,39 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Pago
 from .forms import PagoForm
 
-def lista_pagos(request):
+def pago_list(request):
     pagos = Pago.objects.all()
-    return render(request, 'pagos/lista.html', {'pagos': pagos})
+    return render(request, 'pagos/pago_list.html', {'pagos': pagos})
 
-def detalle_pago(request, pk):
-    pago = get_object_or_404(Pago, pk=pk)
-    return render(request, 'pagos/detalle.html', {'pago': pago})
+def pago_detail(request, id):
+    pago = get_object_or_404(Pago, id_pago=id)
+    return render(request, 'pagos/pago_detail.html', {'pago': pago})
 
-def crear_pago(request):
-    if request.method == 'POST':
-        form = PagoForm(request.POST, request.FILES)
+def pago_create(request):
+    if request.method == "POST":
+        form = PagoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_pagos')
+            return HttpResponseRedirect(reverse('pago_list'))
     else:
         form = PagoForm()
-    return render(request, 'pagos/formulario.html', {'form': form})
+    return render(request, 'pagos/pago_form.html', {'form': form})
 
-def editar_pago(request, pk):
-    pago = get_object_or_404(Pago, pk=pk)
-    if request.method == 'POST':
-        form = PagoForm(request.POST, request.FILES, instance=pago)
+def pago_update(request, id):
+    pago = get_object_or_404(Pago, id_pago=id)
+    if request.method == "POST":
+        form = PagoForm(request.POST, instance=pago)
         if form.is_valid():
             form.save()
-            return redirect('lista_pagos')
+            return HttpResponseRedirect(reverse('pago_list'))
     else:
         form = PagoForm(instance=pago)
-    return render(request, 'pagos/formulario.html', {'form': form})
+    return render(request, 'pagos/pago_form.html', {'form': form})
 
-def eliminar_pago(request, pk):
-    pago = get_object_or_404(Pago, pk=pk)
-    if request.method == 'POST':
+def pago_delete(request, id):
+    pago = get_object_or_404(Pago, id_pago=id)
+    if request.method == "POST":
         pago.delete()
-        return redirect('lista_pagos')
-    return render(request, 'pagos/confirmar_eliminacion.html', {'pago': pago})
+        return HttpResponseRedirect(reverse('pago_list'))
+    return render(request, 'pagos/pago_confirm_delete.html', {'pago': pago})

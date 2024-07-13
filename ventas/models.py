@@ -1,45 +1,91 @@
 from django.db import models
-from simple_history.models import HistoricalRecords
-from productos.models import ProductoVenta, ProductoAlquiler
+from django.utils import timezone
+from clientes.models import Cliente
+from productos.models import Producto
 
 class Venta(models.Model):
-    id_ventas = models.CharField(max_length=6, unique=True)
+    id_venta = models.CharField(max_length=6, unique=True, primary_key=True)
     created_by = models.EmailField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    change_timestamp = models.DateTimeField(auto_now=True)
-    tienda = models.CharField(max_length=20, choices=[('Madrid', 'Madrid'), ('Barcelona', 'Barcelona'), ('Valencia', 'Valencia'), ('Videollamada', 'Videollamada')])
+    creation_date = models.DateTimeField(default=timezone.now)
+    changetimestamp = models.DateTimeField(auto_now=True)
+    tienda = models.CharField(max_length=50, choices=[
+        ('Madrid', 'Madrid'),
+        ('Barcelona', 'Barcelona'),
+        ('Valencia', 'Valencia'),
+        ('Videollamada', 'Videollamada')
+    ])
     envio_entrega = models.BooleanField(default=False)
-    estado_entrega = models.CharField(max_length=50, choices=[('Por Entregar o Enviar', 'Por Entregar o Enviar'), ('Entregado o Enviado', 'Entregado o Enviado'), ('Vestido Devuelto', 'Vestido Devuelto')])
-    tipo = models.CharField(max_length=20, choices=[('Alquiler', 'Alquiler'), ('Venta', 'Venta')])
-    id_clientes = models.ForeignKey('clientes.Cliente', on_delete=models.CASCADE)
-    productos_venta = models.ManyToManyField(ProductoVenta, blank=True)
-    productos_alquiler = models.ManyToManyField(ProductoAlquiler, blank=True)
+    estado_entrega = models.CharField(max_length=50, choices=[
+        ('Por Entregar o Enviar', 'Por Entregar o Enviar'),
+        ('Entregado o Enviado', 'Entregado o Enviado'),
+        ('Vestido Devuelto', 'Vestido Devuelto')
+    ])
+    tipo = models.CharField(max_length=10, choices=[
+        ('Alquiler', 'Alquiler'),
+        ('Venta', 'Venta')
+    ])
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    productos = models.ManyToManyField(Producto)
     fecha_entrega = models.DateField()
-    fecha_devolucion = models.DateField(null=True, blank=True)
-    amount_deposito = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    estado_deposito = models.CharField(max_length=50, choices=[('Pendiente de Entrega', 'Pendiente de Entrega'), ('Entregado por el Cliente', 'Entregado por el Cliente'), ('Devuelto al Cliente', 'Devuelto al Cliente')], null=True, blank=True)
-    firma = models.ImageField(upload_to='firmas/', null=True, blank=True)
-    direccion = models.TextField(null=True, blank=True)
-    precio_envio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    total_a_pagar = models.DecimalField(max_digits=10, decimal_places=2)
-    total_pagado = models.DecimalField(max_digits=10, decimal_places=2)
-    pendiente_de_pago = models.DecimalField(max_digits=10, decimal_places=2)
-    estado_pago = models.CharField(max_length=50)
-    comentarios = models.TextField(null=True, blank=True)
-    estado_venta = models.CharField(max_length=50)
-    descuento = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    motivo = models.TextField(null=True, blank=True)
-    devolucion = models.TextField(null=True, blank=True)
-    nombre_calendario = models.CharField(max_length=255, null=True, blank=True)
-    pdf = models.FileField(upload_to='pdfs/', null=True, blank=True)
-    identificacion = models.ImageField(upload_to='identificaciones/', null=True, blank=True)
-    identificacion_trasera = models.ImageField(upload_to='identificaciones/', null=True, blank=True)
-    coste_fotos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    tiara = models.CharField(max_length=50, choices=[('Entregada', 'Entregada'), ('No entregada', 'No entregada'), ('Sin tiara', 'Sin tiara')], null=True, blank=True)
-    cancan = models.CharField(max_length=50, choices=[('3 aros', '3 aros'), ('6 aros', '6 aros'), ('8 aros', '8 aros')], null=True, blank=True)
-    fecha_extra_fotos = models.DateField(null=True, blank=True)
-    compras = models.TextField(null=True, blank=True)
-    history = HistoricalRecords()
+    fecha_devolucion = models.DateField(blank=True, null=True)
+    amount_deposito = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    estado_deposito = models.CharField(max_length=50, choices=[
+        ('Pendiente de Entrega', 'Pendiente de Entrega'),
+        ('Entregado por el Cliente', 'Entregado por el Cliente'),
+        ('Devuelto al Cliente', 'Devuelto al Cliente')
+    ], blank=True, null=True)
+    direccion = models.TextField(blank=True)
+    precio_envio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_a_pagar = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_pagado = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    pendiente_de_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    estado_pago = models.CharField(max_length=50, blank=True, null=True)
+    comentarios = models.TextField(blank=True)
+    estado_venta = models.CharField(max_length=50, blank=True, null=True)
+    descuento = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    motivo = models.TextField(blank=True)
+    devolucion = models.TextField(blank=True)
+    pdf = models.TextField(blank=True)
+    identificacion = models.ImageField(upload_to='identificaciones/', blank=True, null=True)
+    identificacion_trasera = models.ImageField(upload_to='identificaciones/', blank=True, null=True)
+    coste_fotos = models.TextField(blank=True)
+    tiara = models.CharField(max_length=50, choices=[
+        ('Entregada', 'Entregada'),
+        ('No entregada', 'No entregada'),
+        ('Sin tiara', 'Sin tiara')
+    ], blank=True, null=True)
+    fecha_extra_fotos = models.DateField(blank=True, null=True)
+    compras = models.TextField(blank=True)
+    
+    def save(self, *args, **kwargs):
+        self.total_a_pagar = sum(producto.pvp for producto in self.productos.all()) + self.precio_envio - self.descuento
+        self.pendiente_de_pago = self.total_a_pagar - self.total_pagado
+        if self.total_pagado == 0:
+            self.estado_pago = "Incluir Pago"
+        elif self.total_pagado < 0:
+            self.estado_pago = "Revisar Venta"
+        elif self.pendiente_de_pago > 0:
+            self.estado_pago = "Pagado Parcialmente"
+        elif self.pendiente_de_pago == 0:
+            self.estado_pago = "Pagado"
+        else:
+            self.estado_pago = "Devolver al Cliente"
+
+        if "Cancel" in self.comentarios:
+            self.estado_venta = "Cancelada"
+        elif self.estado_deposito == "Por Entregar o Enviar" or self.estado_pago == "Pagado Parcialmente" or (self.tipo == "Alquiler" and self.estado_entrega == "Entregado o Enviado"):
+            self.estado_venta = "En Proceso"
+        elif self.tipo == "Venta" and self.estado_entrega == "Entregado o Enviado" and self.estado_pago == "Pagado":
+            self.estado_venta = "Completa"
+        elif self.tipo == "Alquiler" and self.estado_entrega == "Vestido Devuelto" and self.estado_pago == "Pagado":
+            self.estado_venta = "Completa"
+        else:
+            self.estado_venta = "En Proceso"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Venta {self.id_ventas} - {self.tienda}"
+        return self.id_venta
+
+    class Meta:
+        verbose_name_plural = "Ventas"

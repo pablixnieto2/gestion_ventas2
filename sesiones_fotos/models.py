@@ -1,27 +1,33 @@
 from django.db import models
-from simple_history.models import HistoricalRecords
-from ventas.models import Venta
+from django.utils import timezone
+from clientes.models import Cliente
 
-class SesionFotos(models.Model):
-    id_sesion = models.CharField(max_length=6, unique=True)
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='sesiones_fotos')
+class SesionFoto(models.Model):
+    id_sesion = models.CharField(max_length=6, unique=True, primary_key=True)
+    created_by = models.EmailField()
+    creation_date = models.DateTimeField(default=timezone.now)
+    changetimestamp = models.DateTimeField(auto_now=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     fecha_sesion = models.DateField()
-    hora_inicio = models.TimeField()
-    hora_fin = models.TimeField()
-    ubicacion = models.CharField(max_length=100)
-    fotografo = models.CharField(max_length=100)
-    comentarios = models.TextField(null=True, blank=True)
-    estado = models.CharField(max_length=50, choices=[('Pendiente', 'Pendiente'), ('Completada', 'Completada'), ('Cancelada', 'Cancelada')])
-    history = HistoricalRecords()
+    lugar = models.CharField(max_length=100)
+    estado_sesion = models.CharField(max_length=50, choices=[
+        ('Pendiente', 'Pendiente'),
+        ('Completada', 'Completada'),
+        ('Cancelada', 'Cancelada')
+    ])
+    comentarios = models.TextField(blank=True)
+    fotos_entregadas = models.BooleanField(default=False)
+    num_fotos = models.IntegerField(default=0)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_pagado = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    pendiente_de_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    
+    def save(self, *args, **kwargs):
+        self.pendiente_de_pago = self.precio - self.total_pagado
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Sesión de Fotos {self.id_sesion} - {self.venta.id_ventas} - {self.fecha_sesion}"
+        return self.id_sesion
 
-    @property
-    def duracion(self):
-        from datetime import datetime, date
-        return (datetime.combine(date.min, self.hora_fin) - datetime.combine(date.min, self.hora_inicio)).seconds / 3600
-
-    @property
-    def estado_display(self):
-        return self.estado
+    class Meta:
+        verbose_name_plural = "Sesiones de Fotos"

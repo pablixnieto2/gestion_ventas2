@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pagos</title>
+</head>
+<body>
+    <h1>Lista de Pagos</h1>
+    <a href="{% url 'pago_create' %}">Crear Nuevo Pago</a>
+    <ul>
+        {% for pago in pagos %}
+            <li>
+                <a href="{% url 'pago_detail' pago.id_pago %}">
+                    {{ pago.id_pago }} - {{ pago.venta.id_venta }}
+                </a>
+                <a href="{% url 'pago_update' pago.id_pago %}">Editar</a>
+                <a href="{% url 'pago_delete' pago.id_pago %}">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

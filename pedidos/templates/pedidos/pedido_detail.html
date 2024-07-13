@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Pedido</title>
+</head>
+<body>
+    <h1>Detalles del Pedido</h1>
+    <p><strong>ID Pedido:</strong> {{ pedido.id_pedido }}</p>
+    <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }} {{ pedido.cliente.apellido }}</p>
+    <p><strong>Estado:</strong> {{ pedido.estado_pedido }}</p>
+    <p><strong>Total a Pagar:</strong> {{ pedido.total_a_pagar }} €</p>
+    <p><strong>Total Pagado:</strong> {{ pedido.total_pagado }} €</p>
+    <p><strong>Pendiente de Pago:</strong> {{ pedido.pendiente_de_pago }} €</p>
+    <p><strong>Productos:</strong>
+        <ul>
+            {% for producto in pedido.productos.all %}
+                <li>{{ producto.nombre }} - {{ producto.categoria }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+    <p><strong>Dirección de Envío:</strong> {{ pedido.direccion_envio }}</p>
+    <p><strong>Comentarios:</strong> {{ pedido.comentarios }}</p>
+    <a href="{% url 'pedido_update' pedido.id_pedido %}">Editar</a>
+    <a href="{% url 'pedido_list' %}">Volver a la lista</a>
+</body>
+</html>

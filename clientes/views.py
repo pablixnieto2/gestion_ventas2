@@ -1,39 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Cliente
 from .forms import ClienteForm
 
-def lista_clientes(request):
+def cliente_list(request):
     clientes = Cliente.objects.all()
-    return render(request, 'clientes/lista.html')
+    return render(request, 'clientes/cliente_list.html', {'clientes': clientes})
 
-def detalle_cliente(request, pk):
-    cliente = get_object_or_404(Cliente, pk=pk)
-    return render(request, 'clientes/detalle.html', {'cliente': cliente})
+def cliente_detail(request, id):
+    cliente = get_object_or_404(Cliente, id_cliente=id)
+    return render(request, 'clientes/cliente_detail.html', {'cliente': cliente})
 
-def crear_cliente(request):
-    if request.method == 'POST':
+def cliente_create(request):
+    if request.method == "POST":
         form = ClienteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_clientes')
+            return HttpResponseRedirect(reverse('cliente_list'))
     else:
         form = ClienteForm()
-    return render(request, 'clientes/formulario.html', {'form': form})
+    return render(request, 'clientes/cliente_form.html', {'form': form})
 
-def editar_cliente(request, pk):
-    cliente = get_object_or_404(Cliente, pk=pk)
-    if request.method == 'POST':
+def cliente_update(request, id):
+    cliente = get_object_or_404(Cliente, id_cliente=id)
+    if request.method == "POST":
         form = ClienteForm(request.POST, instance=cliente)
         if form.is_valid():
             form.save()
-            return redirect('lista_clientes')
+            return HttpResponseRedirect(reverse('cliente_list'))
     else:
         form = ClienteForm(instance=cliente)
-    return render(request, 'clientes/formulario.html', {'form': form})
+    return render(request, 'clientes/cliente_form.html', {'form': form})
 
-def eliminar_cliente(request, pk):
-    cliente = get_object_or_404(Cliente, pk=pk)
-    if request.method == 'POST':
+def cliente_delete(request, id):
+    cliente = get_object_or_404(Cliente, id_cliente=id)
+    if request.method == "POST":
         cliente.delete()
-        return redirect('lista_clientes')
-    return render(request, 'clientes/confirmar_eliminacion.html', {'cliente': cliente})
+        return HttpResponseRedirect(reverse('cliente_list'))
+    return render(request, 'clientes/cliente_confirm_delete.html', {'cliente': cliente})

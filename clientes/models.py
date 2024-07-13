@@ -1,46 +1,56 @@
 from django.db import models
-from simple_history.models import HistoricalRecords
+from django.utils import timezone
 
 class Cliente(models.Model):
+    id_cliente = models.CharField(max_length=6, unique=True, primary_key=True)
     created_by = models.EmailField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    fecha_fiesta = models.DateField(null=True, blank=True)
+    creation_date = models.DateTimeField(default=timezone.now)
+    fecha_fiesta = models.DateField()
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
-    prefijo = models.CharField(max_length=3)
+    prefijo = models.CharField(max_length=3, blank=True, null=True)
     telefono = models.CharField(max_length=15)
     email = models.EmailField()
-    ubicacion = models.CharField(max_length=20, choices=[('Madrid', 'Madrid'), ('Valencia', 'Valencia'), ('Barcelona', 'Barcelona'), ('Videollamada', 'Videollamada')])
-    estado = models.CharField(max_length=50, choices=[('sin cita', 'sin cita'), ('con cita', 'con cita'), ('perdido', 'perdido'), ('eliminar cliente duplicado', 'eliminar cliente duplicado')])
-    como_nos_conocio = models.CharField(max_length=20, choices=[('Google', 'Google'), ('Google maps', 'Google maps'), ('Instagram', 'Instagram'), ('Facebook', 'Facebook'), ('Recomendación', 'Recomendación'), ('Milanuncios', 'Milanuncios'), ('Web', 'Web'), ('Otro', 'Otro')])
-    label_clientes = models.CharField(max_length=255)
-    whatsapp = models.CharField(max_length=255)
-    comentarios = models.TextField(null=True, blank=True)
-    razon_perdida = models.CharField(max_length=255, null=True, blank=True)
-    codigo_postal = models.CharField(max_length=10)
-    vendedora = models.CharField(max_length=100)
-    estado_cliente = models.CharField(max_length=50, choices=[('ya compró', 'ya compró'), ('perdido', 'perdido')])
-    duplicados = models.BooleanField(default=False)
-    ventas_relacionadas = models.TextField()
-    color = models.CharField(max_length=50)
-    telefono2 = models.CharField(max_length=15)
-    label_clientes2 = models.CharField(max_length=255)
-    related_sesiones_fotos = models.TextField()
-    end_time = models.DateTimeField(null=True, blank=True)
-    start_time = models.DateTimeField(null=True, blank=True)
-    history = HistoricalRecords()
+    ubicacion = models.CharField(max_length=50, choices=[
+        ('Madrid', 'Madrid'),
+        ('Valencia', 'Valencia'),
+        ('Barcelona', 'Barcelona'),
+        ('Videollamada', 'Videollamada')
+    ])
+    estado = models.CharField(max_length=50, choices=[
+        ('sin cita', 'Sin Cita'),
+        ('con cita', 'Con Cita'),
+        ('perdido', 'Perdido'),
+        ('eliminar cliente duplicado', 'Eliminar Cliente Duplicado')
+    ])
+    como_nos_conocio = models.CharField(max_length=50, choices=[
+        ('Google', 'Google'),
+        ('Google maps', 'Google Maps'),
+        ('Instagram', 'Instagram'),
+        ('Facebook', 'Facebook'),
+        ('Recomendación', 'Recomendación'),
+        ('Milanuncios', 'Milanuncios'),
+        ('Web', 'Web'),
+        ('Otro', 'Otro')
+    ])
+    label_cliente = models.CharField(max_length=255, blank=True)
+    whatsapp = models.URLField(blank=True)
+    comentarios = models.TextField(blank=True)
+    razon_perdida = models.TextField(blank=True)
+    codigo_postal = models.CharField(max_length=10, blank=True)
+    vendedora = models.CharField(max_length=100, blank=True)
+    estado_cliente = models.CharField(max_length=50, choices=[
+        ('ya compró', 'Ya Compró'),
+        ('perdido', 'Perdido')
+    ])
+
+    def save(self, *args, **kwargs):
+        self.label_cliente = f"{self.nombre} {self.apellido} - {self.telefono}"
+        self.whatsapp = f"http://wa.me/{self.telefono}"
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido} - {self.telefono}"
+        return self.label_cliente
 
-    @property
-    def label_cliente(self):
-        return f"{self.nombre} {self.apellido} - {self.telefono}"
-
-    @property
-    def whatsapp(self):
-        return f"http://wa.me/{self.telefono}"
-
-    @property
-    def duplicados(self):
-        return Cliente.objects.filter(telefono=self.telefono).exclude(id=self.id).exists()
+    class Meta:
+        verbose_name_plural = "Clientes"
