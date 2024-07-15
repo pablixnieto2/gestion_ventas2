@@ -4,6 +4,9 @@ from django.urls import reverse
 from .models import Pago
 from .forms import PagoForm
 
+def index(request):
+    return render(request, 'pagos/index.html')
+
 def pago_list(request):
     pagos = Pago.objects.all()
     return render(request, 'pagos/pago_list.html', {'pagos': pagos})

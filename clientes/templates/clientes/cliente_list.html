@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Clientes</title>
+    <title>Listar Clientes</title>
 </head>
 <body>
-    <h1>Lista de Clientes</h1>
-    <a href="{% url 'cliente_create' %}">Crear Nuevo Cliente</a>
+    <h1>Listar Clientes</h1>
     <ul>
         {% for cliente in clientes %}
-            <li>
-                <a href="{% url 'cliente_detail' cliente.id_cliente %}">
-                    {{ cliente.nombre }} {{ cliente.apellido }} - {{ cliente.telefono }}
-                </a>
-                <a href="{% url 'cliente_update' cliente.id_cliente %}">Editar</a>
-                <a href="{% url 'cliente_delete' cliente.id_cliente %}">Eliminar</a>
-            </li>
+            <li>{{ cliente.nombre }} - <a href="{% url 'cliente_detail' cliente.id %}">Detalle</a> - <a href="{% url 'cliente_edit' cliente.id %}">Editar</a> - <a href="{% url 'cliente_delete' cliente.id %}">Eliminar</a></li>
         {% endfor %}
     </ul>
 </body>

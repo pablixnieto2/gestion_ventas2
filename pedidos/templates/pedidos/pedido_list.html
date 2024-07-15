@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Pedidos</title>
+    <title>Listar Pedidos</title>
 </head>
 <body>
-    <h1>Lista de Pedidos</h1>
-    <a href="{% url 'pedido_create' %}">Crear Nuevo Pedido</a>
+    <h1>Listar Pedidos</h1>
     <ul>
         {% for pedido in pedidos %}
-            <li>
-                <a href="{% url 'pedido_detail' pedido.id_pedido %}">
-                    {{ pedido.id_pedido }} - {{ pedido.cliente.nombre }} {{ pedido.cliente.apellido }}
-                </a>
-                <a href="{% url 'pedido_update' pedido.id_pedido %}">Editar</a>
-                <a href="{% url 'pedido_delete' pedido.id_pedido %}">Eliminar</a>
-            </li>
+            <li>{{ pedido.nombre }} - <a href="{% url 'pedido_detail' pedido.id %}">Detalle</a> - <a href="{% url 'pedido_edit' pedido.id %}">Editar</a> - <a href="{% url 'pedido_delete' pedido.id %}">Eliminar</a></li>
         {% endfor %}
     </ul>
 </body>

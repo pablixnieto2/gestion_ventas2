@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Producto</title>
+    <title>Detalle del Producto</title>
 </head>
 <body>
-    <h1>Detalles del Producto</h1>
-    <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
-    <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
-    <p><strong>Color:</strong> {{ producto.color }}</p>
-    <p><strong>Talla:</strong> {{ producto.talla }}</p>
-    <p><strong>PVP:</strong> {{ producto.pvp }} €</p>
-    <p><strong>Estado:</strong> {{ producto.estado }}</p>
-    <a href="{% url 'producto_update' producto.id_producto %}">Editar</a>
-    <a href="{% url 'producto_list' %}">Volver a la lista</a>
+    <h1>Detalle del Producto</h1>
+    <p>Nombre: {{ producto.nombre }}</p>
+    <p>Descripción: {{ producto.descripcion }}</p>
 </body>
 </html>

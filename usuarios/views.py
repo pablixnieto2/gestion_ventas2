@@ -1,51 +1,42 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
 from .models import Usuario
 from .forms import UsuarioForm
 
-def lista_usuarios(request):
+def index(request):
+    return render(request, 'usuarios/index.html')
+
+def usuario_list(request):
     usuarios = Usuario.objects.all()
-    return render(request, 'usuarios/lista.html', {'usuarios': usuarios})
+    return render(request, 'usuarios/usuario_list.html', {'usuarios': usuarios})
 
-def detalle_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
-    return render(request, 'usuarios/detalle.html', {'usuario': usuario})
+def usuario_detail(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
+    return render(request, 'usuarios/usuario_detail.html', {'usuario': usuario})
 
-def crear_usuario(request):
+def usuario_create(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data['username'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password']
-            )
-            Usuario.objects.create(user=user, telefono=request.POST['telefono'])
-            return redirect('lista_usuarios')
+            form.save()
+            return redirect('usuario_list')
     else:
         form = UsuarioForm()
-    return render(request, 'usuarios/formulario.html', {'form': form})
+    return render(request, 'usuarios/usuario_form.html', {'form': form})
 
-def editar_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
+def usuario_edit(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
     if request.method == 'POST':
-        form = UsuarioForm(request.POST, instance=usuario.user)
+        form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
-            usuario.user.username = form.cleaned_data['username']
-            usuario.user.email = form.cleaned_data['email']
-            if form.cleaned_data['password']:
-                usuario.user.set_password(form.cleaned_data['password'])
-            usuario.user.save()
-            usuario.telefono = request.POST['telefono']
-            usuario.save()
-            return redirect('lista_usuarios')
+            form.save()
+            return redirect('usuario_list')
     else:
-        form = UsuarioForm(instance=usuario.user)
-    return render(request, 'usuarios/formulario.html', {'form': form, 'telefono': usuario.telefono})
+        form = UsuarioForm(instance=usuario)
+    return render(request, 'usuarios/usuario_form.html', {'form': form})
 
-def eliminar_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
+def usuario_delete(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
     if request.method == 'POST':
-        usuario.user.delete()
-        return redirect('lista_usuarios')
-    return render(request, 'usuarios/confirmar_eliminacion.html', {'usuario': usuario})
+        usuario.delete()
+        return redirect('usuario_list')
+    return render(request, 'usuarios/usuario_confirm_delete.html', {'usuario': usuario})

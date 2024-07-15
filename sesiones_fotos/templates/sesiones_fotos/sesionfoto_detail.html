@@ -3,22 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la Sesión de Fotos</title>
+    <title>Detalle de la Sesión de Fotos</title>
 </head>
 <body>
-    <h1>Detalles de la Sesión de Fotos</h1>
-    <p><strong>ID Sesión:</strong> {{ sesion.id_sesion }}</p>
-    <p><strong>Cliente:</strong> {{ sesion.cliente.nombre }} {{ sesion.cliente.apellido }}</p>
-    <p><strong>Fecha de la Sesión:</strong> {{ sesion.fecha_sesion }}</p>
-    <p><strong>Lugar:</strong> {{ sesion.lugar }}</p>
-    <p><strong>Estado:</strong> {{ sesion.estado_sesion }}</p>
-    <p><strong>Comentarios:</strong> {{ sesion.comentarios }}</p>
-    <p><strong>Fotos Entregadas:</strong> {{ sesion.fotos_entregadas }}</p>
-    <p><strong>Número de Fotos:</strong> {{ sesion.num_fotos }}</p>
-    <p><strong>Precio:</strong> {{ sesion.precio }} €</p>
-    <p><strong>Total Pagado:</strong> {{ sesion.total_pagado }} €</p>
-    <p><strong>Pendiente de Pago:</strong> {{ sesion.pendiente_de_pago }} €</p>
-    <a href="{% url 'sesionfoto_update' sesion.id_sesion %}">Editar</a>
-    <a href="{% url 'sesionfoto_list' %}">Volver a la lista</a>
+    <h1>Detalle de la Sesión de Fotos</h1>
+    <p>Nombre: {{ sesion_foto.nombre }}</p>
+    <p>Descripción: {{ sesion_foto.descripcion }}</p>
 </body>
 </html>

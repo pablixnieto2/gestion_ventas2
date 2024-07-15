@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
+    <title>Listar Productos</title>
 </head>
 <body>
-    <h1>Lista de Productos</h1>
-    <a href="{% url 'producto_create' %}">Crear Nuevo Producto</a>
+    <h1>Listar Productos</h1>
     <ul>
         {% for producto in productos %}
-            <li>
-                <a href="{% url 'producto_detail' producto.id_producto %}">
-                    {{ producto.nombre }} - {{ producto.categoria }}
-                </a>
-                <a href="{% url 'producto_update' producto.id_producto %}">Editar</a>
-                <a href="{% url 'producto_delete' producto.id_producto %}">Eliminar</a>
-            </li>
+            <li>{{ producto.nombre }} - <a href="{% url 'producto_detail' producto.id %}">Detalle</a> - <a href="{% url 'producto_edit' producto.id %}">Editar</a> - <a href="{% url 'producto_delete' producto.id %}">Eliminar</a></li>
         {% endfor %}
     </ul>
 </body>

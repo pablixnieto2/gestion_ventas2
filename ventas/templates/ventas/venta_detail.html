@@ -3,25 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la Venta</title>
+    <title>Detalle de la Venta</title>
 </head>
 <body>
-    <h1>Detalles de la Venta</h1>
-    <p><strong>ID Venta:</strong> {{ venta.id_venta }}</p>
-    <p><strong>Cliente:</strong> {{ venta.cliente.nombre }} {{ venta.cliente.apellido }}</p>
-    <p><strong>Tienda:</strong> {{ venta.tienda }}</p>
-    <p><strong>Tipo:</strong> {{ venta.tipo }}</p>
-    <p><strong>Productos:</strong>
-        <ul>
-            {% for producto in venta.productos.all %}
-                <li>{{ producto.nombre }} - {{ producto.categoria }}</li>
-            {% endfor %}
-        </ul>
-    </p>
-    <p><strong>Total a Pagar:</strong> {{ venta.total_a_pagar }} €</p>
-    <p><strong>Total Pagado:</strong> {{ venta.total_pagado }} €</p>
-    <p><strong>Pendiente de Pago:</strong> {{ venta.pendiente_de_pago }} €</p>
-    <a href="{% url 'venta_update' venta.id_venta %}">Editar</a>
-    <a href="{% url 'venta_list' %}">Volver a la lista</a>
+    <h1>Detalle de la Venta</h1>
+    <p>Nombre: {{ venta.nombre }}</p>
+    <p>Descripción: {{ venta.descripcion }}</p>
 </body>
 </html>
