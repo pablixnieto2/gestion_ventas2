@@ -1,13 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Cliente</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalle del Cliente{% endblock %}
+
+{% block content %}
+<div class="container">
     <h1>Detalle del Cliente</h1>
-    <p>Nombre: {{ cliente.nombre }}</p>
-    <p>Dirección: {{ cliente.direccion }}</p>
-</body>
-</html>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID Cliente</th>
+            <td>{{ cliente.id_cliente }}</td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td>{{ cliente.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Apellido</th>
+            <td>{{ cliente.apellido }}</td>
+        </tr>
+        <tr>
+            <th>Teléfono</th>
+            <td>{{ cliente.telefono2 }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ cliente.email }}</td>
+        </tr>
+        <tr>
+            <th>Ubicación</th>
+            <td>{{ cliente.ubicacion }}</td>
+        </tr>
+        <tr>
+            <th>Comentarios</th>
+            <td>{{ cliente.comentarios }}</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td>{{ cliente.estado }}</td>
+        </tr>
+        <tr>
+            <th>Como nos conoció</th>
+            <td>{{ cliente.como_nos_conocio }}</td>
+        </tr>
+        <tr>
+            <th>Duplicados</th>
+            <td>{{ cliente.duplicados }}</td>
+        </tr>
+        <tr>
+            <th>Ventas Relacionadas</th>
+            <td>{{ cliente.ventas_relacionadas.count }}</td>
+        </tr>
+        <tr>
+            <th>Sesiones de Fotos Relacionadas</th>
+            <td>{{ cliente.related_sesiones_fotos.count }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'clientes:cliente-update' cliente.id %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'clientes:cliente-delete' cliente.id %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}

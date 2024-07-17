@@ -1,11 +1,12 @@
 from django.urls import path
-from . import views
+from .views import VentaListView, VentaDetailView, VentaCreateView, VentaUpdateView, VentaDeleteView
+
+app_name = 'ventas'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('crear/', views.venta_create, name='venta_create'),
-    path('listar/', views.venta_list, name='venta_list'),
-    path('<int:id>/', views.venta_detail, name='venta_detail'),
-    path('<int:id>/editar/', views.venta_edit, name='venta_edit'),
-    path('<int:id>/eliminar/', views.venta_delete, name='venta_delete'),
+    path('', VentaListView.as_view(), name='venta-list'),
+    path('create/', VentaCreateView.as_view(), name='venta-create'),
+    path('<str:pk>/', VentaDetailView.as_view(), name='venta-detail'),
+    path('<str:pk>/update/', VentaUpdateView.as_view(), name='venta-update'),
+    path('<str:pk>/delete/', VentaDeleteView.as_view(), name='venta-delete'),
 ]

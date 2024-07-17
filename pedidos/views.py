@@ -1,42 +1,28 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Pedido
 from .forms import PedidoForm
 
-def index(request):
-    return render(request, 'pedidos/index.html')
+class PedidoListView(ListView):
+    model = Pedido
+    template_name = 'pedidos/pedido_list.html'
+    context_object_name = 'pedidos'
 
-def pedido_list(request):
-    pedidos = Pedido.objects.all()
-    return render(request, 'pedidos/pedido_list.html', {'pedidos': pedidos})
+class PedidoDetailView(DetailView):
+    model = Pedido
+    template_name = 'pedidos/pedido_detail.html'
 
-def pedido_detail(request, id):
-    pedido = get_object_or_404(Pedido, id=id)
-    return render(request, 'pedidos/pedido_detail.html', {'pedido': pedido})
+class PedidoCreateView(CreateView):
+    model = Pedido
+    form_class = PedidoForm
+    template_name = 'pedidos/pedido_form.html'
 
-def pedido_create(request):
-    if request.method == 'POST':
-        form = PedidoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('pedido_list')
-    else:
-        form = PedidoForm()
-    return render(request, 'pedidos/pedido_form.html', {'form': form})
+class PedidoUpdateView(UpdateView):
+    model = Pedido
+    form_class = PedidoForm
+    template_name = 'pedidos/pedido_form.html'
 
-def pedido_edit(request, id):
-    pedido = get_object_or_404(Pedido, id=id)
-    if request.method == 'POST':
-        form = PedidoForm(request.POST, instance=pedido)
-        if form.is_valid():
-            form.save()
-            return redirect('pedido_list')
-    else:
-        form = PedidoForm(instance=pedido)
-    return render(request, 'pedidos/pedido_form.html', {'form': form})
-
-def pedido_delete(request, id):
-    pedido = get_object_or_404(Pedido, id=id)
-    if request.method == 'POST':
-        pedido.delete()
-        return redirect('pedido_list')
-    return render(request, 'pedidos/pedido_confirm_delete.html', {'pedido': pedido})
+class PedidoDeleteView(DeleteView):
+    model = Pedido
+    template_name = 'pedidos/pedido_confirm_delete.html'
+    success_url = '/pedidos/'

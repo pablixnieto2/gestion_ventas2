@@ -1,16 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Pedidos</title>
-</head>
-<body>
-    <h1>Listar Pedidos</h1>
-    <ul>
-        {% for pedido in pedidos %}
-            <li>{{ pedido.nombre }} - <a href="{% url 'pedido_detail' pedido.id %}">Detalle</a> - <a href="{% url 'pedido_edit' pedido.id %}">Editar</a> - <a href="{% url 'pedido_delete' pedido.id %}">Eliminar</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de Pedidos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Pedidos</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID Pedido</th>
+                <th>Cliente</th>
+                <th>Estado</th>
+                <th>Total a Pagar</th>
+                <th>Total Pagado</th>
+                <th>Pendiente de Pago</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id_pedido }}</td>
+                <td>{{ pedido.cliente }}</td>
+                <td>{{ pedido.estado_pedido }}</td>
+                <td>{{ pedido.total_a_pagar }} €</td>
+                <td>{{ pedido.total_pagado }} €</td>
+                <td>{{ pedido.pendiente_de_pago }} €</td>
+                <td>
+                    <a href="{% url 'pedidos:pedido-detail' pedido.id %}" class="btn btn-info">Ver</a>
+                    <a href="{% url 'pedidos:pedido-update' pedido.id %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'pedidos:pedido-delete' pedido.id %}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'pedidos:pedido-create' %}" class="btn btn-success">Agregar Pedido</a>
+</div>
+{% endblock %}

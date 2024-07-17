@@ -1,42 +1,28 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Usuario
 from .forms import UsuarioForm
 
-def index(request):
-    return render(request, 'usuarios/index.html')
+class UsuarioListView(ListView):
+    model = Usuario
+    template_name = 'usuarios/usuario_list.html'
+    context_object_name = 'usuarios'
 
-def usuario_list(request):
-    usuarios = Usuario.objects.all()
-    return render(request, 'usuarios/usuario_list.html', {'usuarios': usuarios})
+class UsuarioDetailView(DetailView):
+    model = Usuario
+    template_name = 'usuarios/usuario_detail.html'
 
-def usuario_detail(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    return render(request, 'usuarios/usuario_detail.html', {'usuario': usuario})
+class UsuarioCreateView(CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/usuario_form.html'
 
-def usuario_create(request):
-    if request.method == 'POST':
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('usuario_list')
-    else:
-        form = UsuarioForm()
-    return render(request, 'usuarios/usuario_form.html', {'form': form})
+class UsuarioUpdateView(UpdateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/usuario_form.html'
 
-def usuario_edit(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    if request.method == 'POST':
-        form = UsuarioForm(request.POST, instance=usuario)
-        if form.is_valid():
-            form.save()
-            return redirect('usuario_list')
-    else:
-        form = UsuarioForm(instance=usuario)
-    return render(request, 'usuarios/usuario_form.html', {'form': form})
-
-def usuario_delete(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    if request.method == 'POST':
-        usuario.delete()
-        return redirect('usuario_list')
-    return render(request, 'usuarios/usuario_confirm_delete.html', {'usuario': usuario})
+class UsuarioDeleteView(DeleteView):
+    model = Usuario
+    template_name = 'usuarios/usuario_confirm_delete.html'
+    success_url = '/usuarios/'

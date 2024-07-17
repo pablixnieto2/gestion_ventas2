@@ -1,11 +1,14 @@
+# pagos/urls.py
+
 from django.urls import path
 from . import views
 
+app_name = 'pagos'
+
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('', views.pago_list, name='pago_list'),
-    path('<str:id>/', views.pago_detail, name='pago_detail'),
-    path('nuevo/', views.pago_create, name='pago_create'),
-    path('editar/<str:id>/', views.pago_update, name='pago_update'),
-    path('eliminar/<str:id>/', views.pago_delete, name='pago_delete'),
+    path('', views.PagoListView.as_view(), name='pago-list'),
+    path('<int:pk>/', views.PagoDetailView.as_view(), name='pago-detail'),
+    path('create/', views.PagoCreateView.as_view(), name='pago-create'),
+    path('<int:pk>/update/', views.PagoUpdateView.as_view(), name='pago-update'),
+    path('<int:pk>/delete/', views.PagoDeleteView.as_view(), name='pago-delete'),
 ]

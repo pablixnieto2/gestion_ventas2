@@ -1,20 +1,39 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Pago</title>
-</head>
-<body>
-    <h1>Detalles del Pago</h1>
-    <p><strong>ID Pago:</strong> {{ pago.id_pago }}</p>
-    <p><strong>Venta:</strong> {{ pago.venta.id_venta }}</p>
-    <p><strong>Cantidad:</strong> {{ pago.cantidad }} €</p>
-    <p><strong>Método de Pago:</strong> {{ pago.metodo_pago }}</p>
-    <p><strong>Referencia del Pago:</strong> {{ pago.referencia_pago }}</p>
-    <p><strong>Comentarios:</strong> {{ pago.comentarios }}</p>
-    <p><strong>Estado del Pago:</strong> {{ pago.estado_pago }}</p>
-    <a href="{% url 'pago_update' pago.id_pago %}">Editar</a>
-    <a href="{% url 'pago_list' %}">Volver a la lista</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalle del Pago{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Detalle del Pago</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID Pago</th>
+            <td>{{ pago.id_pago }}</td>
+        </tr>
+        <tr>
+            <th>Venta</th>
+            <td>{{ pago.venta.id_venta }}</td>
+        </tr>
+        <tr>
+            <th>Cantidad</th>
+            <td>{{ pago.cantidad }}</td>
+        </tr>
+        <tr>
+            <th>Método de Pago</th>
+            <td>{{ pago.metodo_pago }}</td>
+        </tr>
+        <tr>
+            <th>Comentarios</th>
+            <td>{{ pago.comentarios }}</td>
+        </tr>
+        <tr>
+            <th>Estado del Pago</th>
+            <td>{{ pago.estado_pago }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'pagos:pago-update' pago.pk %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'pagos:pago-delete' pago.pk %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'pagos:pago-list' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}

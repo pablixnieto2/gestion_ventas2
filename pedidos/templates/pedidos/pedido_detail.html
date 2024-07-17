@@ -1,13 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Pedido</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalle del Pedido{% endblock %}
+
+{% block content %}
+<div class="container">
     <h1>Detalle del Pedido</h1>
-    <p>Nombre: {{ pedido.nombre }}</p>
-    <p>Descripción: {{ pedido.descripcion }}</p>
-</body>
-</html>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID Pedido</th>
+            <td>{{ pedido.id_pedido }}</td>
+        </tr>
+        <tr>
+            <th>Cliente</th>
+            <td>{{ pedido.cliente }}</td>
+        </tr>
+        <tr>
+            <th>Fecha de Creación</th>
+            <td>{{ pedido.creation_date }}</td>
+        </tr>
+        <tr>
+            <th>Estado del Pedido</th>
+            <td>{{ pedido.estado_pedido }}</td>
+        </tr>
+        <tr>
+            <th>Total a Pagar</th>
+            <td>{{ pedido.total_a_pagar }} €</td>
+        </tr>
+        <tr>
+            <th>Total Pagado</th>
+            <td>{{ pedido.total_pagado }} €</td>
+        </tr>
+        <tr>
+            <th>Pendiente de Pago</th>
+            <td>{{ pedido.pendiente_de_pago }} €</td>
+        </tr>
+        <tr>
+            <th>Dirección de Envío</th>
+            <td>{{ pedido.direccion_envio }}</td>
+        </tr>
+        <tr>
+            <th>Comentarios</th>
+            <td>{{ pedido.comentarios }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'pedidos:pedido-update' pedido.id %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'pedidos:pedido-delete' pedido.id %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'pedidos:pedido-list' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}

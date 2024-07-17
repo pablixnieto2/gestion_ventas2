@@ -1,16 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Productos</title>
-</head>
-<body>
-    <h1>Listar Productos</h1>
-    <ul>
-        {% for producto in productos %}
-            <li>{{ producto.nombre }} - <a href="{% url 'producto_detail' producto.id %}">Detalle</a> - <a href="{% url 'producto_edit' producto.id %}">Editar</a> - <a href="{% url 'producto_delete' producto.id %}">Eliminar</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de Productos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Productos</h1>
+    <a href="{% url 'productos:producto-create' %}" class="btn btn-success mb-3">Crear Nuevo Producto</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id_producto }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>
+                        <a href="{% url 'productos:producto-detail' producto.id_producto %}" class="btn btn-primary">Ver</a>
+                        <a href="{% url 'productos:producto-update' producto.id_producto %}" class="btn btn-warning">Editar</a>
+                        <a href="{% url 'productos:producto-delete' producto.id_producto %}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

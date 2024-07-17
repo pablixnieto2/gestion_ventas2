@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Eliminación</title>
-</head>
-<body>
-    <h1>Confirmar Eliminación del Pago</h1>
-    <p>¿Estás seguro de que deseas eliminar el pago {{ pago.id_pago }}?</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Eliminar Pago{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Eliminar Pago</h1>
+    <p>¿Estás seguro de que deseas eliminar el pago "{{ pago }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Eliminar</button>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'pagos:pago-detail' pago.id %}" class="btn btn-secondary">Cancelar</a>
     </form>
-    <a href="{% url 'pago_list' %}">Volver a la lista</a>
-</body>
-</html>
+</div>
+{% endblock %}

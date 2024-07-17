@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
 
+app_name = 'sesiones_fotos'  # Definir el namespace
+
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('crear/', views.sesion_foto_create, name='sesion_foto_create'),
-    path('listar/', views.sesion_foto_list, name='sesion_foto_list'),
-    path('<int:id>/', views.sesion_foto_detail, name='sesion_foto_detail'),
-    path('<int:id>/editar/', views.sesion_foto_edit, name='sesion_foto_edit'),
-    path('<int:id>/eliminar/', views.sesion_foto_delete, name='sesion_foto_delete'),
+    path('', views.SesionFotoListView.as_view(), name='sesionfoto-list'),
+    path('<int:pk>/', views.SesionFotoDetailView.as_view(), name='sesionfoto-detail'),
+    path('create/', views.SesionFotoCreateView.as_view(), name='sesionfoto-create'),
+    path('<int:pk>/update/', views.SesionFotoUpdateView.as_view(), name='sesionfoto-update'),
+    path('<int:pk>/delete/', views.SesionFotoDeleteView.as_view(), name='sesionfoto-delete'),
 ]

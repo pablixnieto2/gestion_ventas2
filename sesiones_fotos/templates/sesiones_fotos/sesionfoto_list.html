@@ -1,16 +1,45 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Sesiones de Fotos</title>
-</head>
-<body>
-    <h1>Listar Sesiones de Fotos</h1>
-    <ul>
-        {% for sesion_foto in sesiones_fotos %}
-            <li>{{ sesion_foto.nombre }} - <a href="{% url 'sesion_foto_detail' sesion_foto.id %}">Detalle</a> - <a href="{% url 'sesion_foto_edit' sesion_foto.id %}">Editar</a> - <a href="{% url 'sesion_foto_delete' sesion_foto.id %}">Eliminar</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de Sesiones de Fotos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Sesiones de Fotos</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID Sesión</th>
+                <th>Cliente</th>
+                <th>Fecha de Sesión</th>
+                <th>Lugar</th>
+                <th>Estado</th>
+                <th>Total a Pagar</th>
+                <th>Total Pagado</th>
+                <th>Pendiente de Pago</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sesion in sesiones_fotos %}
+            <tr>
+                <td>{{ sesion.id_sesion }}</td>
+                <td>{{ sesion.cliente }}</td>
+                <td>{{ sesion.fecha_sesion }}</td>
+                <td>{{ sesion.lugar }}</td>
+                <td>{{ sesion.estado_sesion }}</td>
+                <td>{{ sesion.precio }} €</td>
+                <td>{{ sesion.total_pagado }} €</td>
+                <td>{{ sesion.pendiente_de_pago }} €</td>
+                <td>
+                    <a href="{% url 'sesiones_fotos:sesionfoto-detail' sesion.id %}" class="btn btn-info">Ver</a>
+                    <a href="{% url 'sesiones_fotos:sesionfoto-update' sesion.id %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'sesiones_fotos:sesionfoto-delete' sesion.id %}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'sesiones_fotos:sesionfoto-create' %}" class="btn btn-success">Agregar Sesión de Fotos</a>
+</div>
+{% endblock %}

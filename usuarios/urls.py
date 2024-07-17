@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
 
+app_name = 'usuarios'  # Definir el namespace
+
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('crear/', views.usuario_create, name='usuario_create'),
-    path('listar/', views.usuario_list, name='usuario_list'),
-    path('<int:id>/', views.usuario_detail, name='usuario_detail'),
-    path('<int:id>/editar/', views.usuario_edit, name='usuario_edit'),
-    path('<int:id>/eliminar/', views.usuario_delete, name='usuario_delete'),
+    path('', views.UsuarioListView.as_view(), name='usuario-list'),
+    path('<int:pk>/', views.UsuarioDetailView.as_view(), name='usuario-detail'),
+    path('create/', views.UsuarioCreateView.as_view(), name='usuario-create'),
+    path('<int:pk>/update/', views.UsuarioUpdateView.as_view(), name='usuario-update'),
+    path('<int:pk>/delete/', views.UsuarioDeleteView.as_view(), name='usuario-delete'),
 ]

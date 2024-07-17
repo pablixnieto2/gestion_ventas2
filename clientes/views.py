@@ -1,42 +1,31 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Cliente
 from .forms import ClienteForm
 
-def index(request):
-    return render(request, 'clientes/index.html')
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'clientes/cliente_list.html'
+    context_object_name = 'clientes'
 
-def cliente_list(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'clientes/cliente_list.html', {'clientes': clientes})
+class ClienteDetailView(DetailView):
+    model = Cliente
+    template_name = 'clientes/cliente_detail.html'
+    context_object_name = 'cliente'
 
-def cliente_detail(request, id):
-    cliente = get_object_or_404(Cliente, id=id)
-    return render(request, 'clientes/cliente_detail.html', {'cliente': cliente})
+class ClienteCreateView(CreateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'clientes/cliente_form.html'
+    success_url = reverse_lazy('clientes:cliente-list')
+    
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    template_name = 'clientes/cliente_form.html'
+    fields = '__all__'
+    success_url = reverse_lazy('clientes:cliente-list')
 
-def cliente_create(request):
-    if request.method == 'POST':
-        form = ClienteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('cliente_list')
-    else:
-        form = ClienteForm()
-    return render(request, 'clientes/cliente_form.html', {'form': form})
-
-def cliente_edit(request, id):
-    cliente = get_object_or_404(Cliente, id=id)
-    if request.method == 'POST':
-        form = ClienteForm(request.POST, instance=cliente)
-        if form.is_valid():
-            form.save()
-            return redirect('cliente_list')
-    else:
-        form = ClienteForm(instance=cliente)
-    return render(request, 'clientes/cliente_form.html', {'form': form})
-
-def cliente_delete(request, id):
-    cliente = get_object_or_404(Cliente, id=id)
-    if request.method == 'POST':
-        cliente.delete()
-        return redirect('cliente_list')
-    return render(request, 'clientes/cliente_confirm_delete.html', {'cliente': cliente})
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'clientes/cliente_confirm_delete.html'
+    success_url = reverse_lazy('clientes:cliente-list')

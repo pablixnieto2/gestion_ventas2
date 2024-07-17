@@ -1,13 +1,45 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de la Venta</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalle de la Venta{% endblock %}
+
+{% block content %}
+<div class="container">
     <h1>Detalle de la Venta</h1>
-    <p>Nombre: {{ venta.nombre }}</p>
-    <p>Descripción: {{ venta.descripcion }}</p>
-</body>
-</html>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID Venta</th>
+            <td>{{ venta.id_venta }}</td>
+        </tr>
+        <tr>
+            <th>Cliente</th>
+            <td>{{ venta.cliente }}</td>
+        </tr>
+        <tr>
+            <th>Productos</th>
+            <td>
+                <ul>
+                {% for producto in venta.productos.all %}
+                    <li>{{ producto }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Total a Pagar</th>
+            <td>{{ venta.total_a_pagar }}</td>
+        </tr>
+        <tr>
+            <th>Total Pagado</th>
+            <td>{{ venta.total_pagado }}</td>
+        </tr>
+        <tr>
+            <th>Pendiente de Pago</th>
+            <td>{{ venta.pendiente_de_pago }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'ventas:venta-update' venta.id %}" class="btn btn-warning">Editar</a>
+    <a href="{% url 'ventas:venta-delete' venta.id %}" class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'ventas:venta-list' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}
