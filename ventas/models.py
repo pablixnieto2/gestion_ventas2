@@ -1,10 +1,9 @@
-# ventas/models.py
-
 import uuid
 from django.db import models
 from django.utils import timezone
+from django.apps import apps
 from clientes.models import Cliente
-from productos.models import Producto  # Si es necesario para otros usos, pero sin usar importaciones circulares.
+from productos.models import Producto
 
 class Venta(models.Model):
     TIENDA_CHOICES = [
@@ -42,7 +41,7 @@ class Venta(models.Model):
     estado_entrega = models.CharField(max_length=50, choices=ESTADO_ENTREGA_CHOICES, default='Por Entregar o Enviar')
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES, default='Venta')
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    productos = models.ManyToManyField('productos.Producto', related_name='ventas')  # Referencia de cadena
+    productos = models.ManyToManyField(Producto)
     fecha_entrega = models.DateField()
     fecha_devolucion = models.DateField(blank=True, null=True)
     amount_deposito = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -66,7 +65,7 @@ class Venta(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.id_venta)
+        return self.id_venta
 
     class Meta:
         verbose_name_plural = "Ventas"

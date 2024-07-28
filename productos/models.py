@@ -1,5 +1,3 @@
-# productos/models.py
-
 from django.db import models
 import uuid
 from django.utils import timezone
@@ -63,7 +61,6 @@ class Producto(models.Model):
         super().save(*args, **kwargs)
 
 class ProductoVenta(Producto):
-    venta = models.ForeignKey('ventas.Venta', on_delete=models.CASCADE, related_name='productos_venta')  # Referencia de cadena
     MADRID = 'Madrid'
     BARCELONA = 'Barcelona'
     TIENDA_CHOICES = [
@@ -82,7 +79,6 @@ class ProductoVenta(Producto):
         verbose_name_plural = "Productos de Venta"
 
 class ProductoAlquiler(Producto):
-    venta = models.ForeignKey('ventas.Venta', on_delete=models.CASCADE, related_name='productos_alquiler')  # Referencia de cadena
     MADRID = 'Madrid'
     BARCELONA = 'Barcelona'
     TIENDA_CHOICES = [

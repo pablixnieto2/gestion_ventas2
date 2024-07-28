@@ -1,5 +1,3 @@
-# pedidos/forms.py
-
 from django import forms
 from django.forms import inlineformset_factory
 from .models import Pedido, PedidoProducto
@@ -8,7 +6,14 @@ from productos.models import ProductoVenta
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['cliente', 'estado_pedido', 'comentarios']
+        fields = [
+            'cliente', 'venta', 'recuerdo', 'estado_pedido', 'comentarios',
+            'tienda', 'fecha_entrega', 'nombre_imprimir', 
+            'fecha_imprimir', 'color', 'numero_unidades'
+        ]
+        widgets = {
+            'estado_pedido': forms.Select(choices=Pedido.ESTADO_PEDIDO_CHOICES),
+        }
 
 class PedidoProductoForm(forms.ModelForm):
     class Meta:

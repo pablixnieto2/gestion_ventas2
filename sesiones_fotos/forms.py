@@ -51,7 +51,7 @@ class PagoForm(forms.ModelForm):
 class SesionFotoForm(forms.ModelForm):
     class Meta:
         model = SesionFoto
-        fields = ['cliente', 'venta', 'producto', 'fecha_sesion', 'duracion', 'lugar', 'estado_sesion', 'extras', 'fecha_segunda_sesion', 'notas']
+        fields = ['cliente', 'venta', 'producto']
         widgets = {}
 
     def __init__(self, *args, **kwargs):
