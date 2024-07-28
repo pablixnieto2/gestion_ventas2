@@ -1,29 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Lista de Productos{% endblock %}
+{% block title %}Lista de Productos de Alquiler{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Lista de Productos</h1>
-    <a href="{% url 'productos:producto-create' %}" class="btn btn-success mb-3">Crear Nuevo Producto</a>
+    <h1>Lista de Productos de Alquiler</h1>
+    <a href="{% url 'productos:producto-alquiler-create' %}" class="btn btn-success mb-3">Crear Producto de Alquiler</a>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Tienda</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for producto in productos %}
+            {% for producto in productos_alquiler %}
                 <tr>
                     <td>{{ producto.id_producto }}</td>
                     <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.tienda }}</td>
                     <td>
                         <a href="{% url 'productos:producto-detail' producto.id_producto %}" class="btn btn-primary">Ver</a>
-                        <a href="{% url 'productos:producto-update' producto.id_producto %}" class="btn btn-warning">Editar</a>
-                        <a href="{% url 'productos:producto-delete' producto.id_producto %}" class="btn btn-danger">Eliminar</a>
+                        <a href="{% url 'productos:producto-alquiler-update' producto.id_producto %}" class="btn btn-warning">Editar</a>
+                        <a href="{% url 'productos:producto-alquiler-delete' producto.id_producto %}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

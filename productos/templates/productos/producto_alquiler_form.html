@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Crear Producto de Alquiler{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Crear Producto de Alquiler</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for form in disponibilidad_formset %}
+            <div class="form-group">
+                <label for="{{ form.id }}">{{ form.fields.tienda_nombre.initial }}</label>
+                {{ form.cantidad }}
+                {{ form.tienda }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'productos:producto-alquiler-list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

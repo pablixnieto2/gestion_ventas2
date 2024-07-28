@@ -1,17 +1,30 @@
-from django import forms
-from .models import Producto
+# productos/forms.py
 
-class ProductoForm(forms.ModelForm):
+from django import forms
+from .models import ProductoVenta, ProductoAlquiler
+
+class ProductoVentaForm(forms.ModelForm):
     class Meta:
-        model = Producto
+        model = ProductoVenta
         fields = [
-            'valencia', 'madrid', 'barcelona', 'tienda', 
             'categoria', 'nombre', 'color', 'talla', 'pvp', 'image', 
-            'estado', 'tipo'
+            'estado', 'tienda', 'stock'
         ]
         widgets = {
-            'tienda': forms.Select(choices=Producto.TIENDA_CHOICES),
-            'categoria': forms.Select(choices=Producto.CATEGORIA_CHOICES),
-            'estado': forms.Select(choices=Producto.ESTADO_CHOICES),
-            'tipo': forms.Select(choices=Producto.TIPO_CHOICES),
+            'categoria': forms.Select(choices=ProductoVenta.CATEGORIA_CHOICES),
+            'estado': forms.Select(choices=ProductoVenta.ESTADO_CHOICES),
+            'tienda': forms.Select(choices=ProductoVenta.TIENDA_CHOICES),
+        }
+
+class ProductoAlquilerForm(forms.ModelForm):
+    class Meta:
+        model = ProductoAlquiler
+        fields = [
+            'categoria', 'nombre', 'color', 'talla', 'pvp', 'image', 
+            'estado', 'tienda', 'cantidad'
+        ]
+        widgets = {
+            'categoria': forms.Select(choices=ProductoAlquiler.CATEGORIA_CHOICES),
+            'estado': forms.Select(choices=ProductoAlquiler.ESTADO_CHOICES),
+            'tienda': forms.Select(choices=ProductoAlquiler.TIENDA_CHOICES),
         }

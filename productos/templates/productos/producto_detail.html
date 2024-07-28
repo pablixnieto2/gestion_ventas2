@@ -5,63 +5,28 @@
 
 {% block content %}
 <div class="container">
-    <h1>Detalle del Producto</h1>
-    <table class="table table-bordered">
-        <tr>
-            <th>ID Producto</th>
-            <td>{{ producto.id }}</td>
-        </tr>
-        <tr>
-            <th>Nombre</th>
-            <td>{{ producto.nombre }}</td>
-        </tr>
-        <tr>
-            <th>Categoría</th>
-            <td>{{ producto.categoria }}</td>
-        </tr>
-        <tr>
-            <th>Precio</th>
-            <td>{{ producto.pvp }} €</td>
-        </tr>
-        <tr>
-            <th>Almacén M</th>
-            <td>{{ producto.almacen_m }}</td>
-        </tr>
-        <tr>
-            <th>Madrid</th>
-            <td>{{ producto.madrid }}</td>
-        </tr>
-        <tr>
-            <th>Barcelona</th>
-            <td>{{ producto.barcelona }}</td>
-        </tr>
-        <tr>
-            <th>Disponibles</th>
-            <td>{{ producto.disponibles }}</td>
-        </tr>
-        <tr>
-            <th>Reservados</th>
-            <td>{{ producto.reservados }}</td>
-        </tr>
-        <tr>
-            <th>Color</th>
-            <td>{{ producto.color }}</td>
-        </tr>
-        <tr>
-            <th>Talla</th>
-            <td>{{ producto.talla }}</td>
-        </tr>
-        <tr>
-            <th>Estado</th>
-            <td>{{ producto.estado }}</td>
-        </tr>
-        <tr>
-            <th>Imagen</th>
-            <td><img src="{{ producto.image.url }}" alt="{{ producto.nombre }}" class="img-fluid"></td>
-        </tr>
-    </table>
-    <a href="{% url 'productos:producto-update' producto.id %}" class="btn btn-warning">Editar</a>
-    <a href="{% url 'productos:producto-delete' producto.id %}" class="btn btn-danger">Eliminar</a>
-    <a href="{% url 'productos:producto-list' %}" class="btn btn-secondary">Volver a la lista</a>
+    <h1>{{ producto.descripcion }}</h1>
+    {% if producto.image %}
+        <img src="{{ producto.image.url }}" alt="{{ producto.nombre }}" class="img-fluid">
+    {% endif %}
+    <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+    <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+    <p><strong>Color:</strong> {{ producto.color }}</p>
+    <p><strong>Talla:</strong> {{ producto.talla }}</p>
+    <p><strong>Precio:</strong> {{ producto.pvp }}€</p>
+    <p><strong>Estado:</strong> {{ producto.estado }}</p>
+    <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+
+    {% if stock %}
+        <h2>Stock por Tienda</h2>
+        <p><strong>{{ producto.tienda }}</strong>: {{ stock }}</p>
+    {% endif %}
+
+    {% if cantidad %}
+        <h2>Disponibilidad</h2>
+        <p>{{ cantidad }} unidades</p>
+    {% endif %}
+    
+    <a href="{% url 'productos:producto-venta-list' %}" class="btn btn-primary">Volver</a>
 </div>
 {% endblock %}

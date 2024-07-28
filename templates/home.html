@@ -1,11 +1,15 @@
 <!-- gestion_ventas2/templates/home.html -->
+{% extends "base.html" %}
+{% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-    <h1>Bienvenido a la página de inicio</h1>
-</body>
-</html>
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Bienvenido a la página de inicio</h1>
+    <p class="lead">Esta es la página de inicio de la aplicación de gestión de ventas.</p>
+    <hr class="my-4">
+    <p>Usa el menú de navegación para explorar las diferentes secciones de la aplicación.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'ventas:venta-list' %}" role="button">Ver Ventas</a>
+</div>
+{% endblock %}

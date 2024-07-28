@@ -9,8 +9,42 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div class="form-group">
+            <label for="id_precio_unitario">Precio Unitario:</label>
+            <input type="text" id="id_precio_unitario" name="precio_unitario" readonly="readonly" class="form-control">
+        </div>
         <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Actualizar{% else %}Guardar{% endif %}</button>
         <a href="{% url 'sesiones_fotos:sesionfoto-list' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function updatePriceUnitario(element) {
+        const selectedOption = element.options[element.selectedIndex];
+        const precioInput = document.querySelector('input[name="precio_unitario"]');
+        
+        const productoId = selectedOption.value;
+        if (productoId) {
+            fetch(`/productos/api/productos/${productoId}/precio/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.precio) {
+                        precioInput.value = data.precio;
+                    }
+                });
+        }
+    }
+
+    const select = document.querySelector('select[name="producto"]');
+    if (select) {
+        updatePriceUnitario(select);  // Update on load
+        select.addEventListener('change', function() {
+            updatePriceUnitario(this);
+        });
+    }
+});
+</script>
 {% endblock %}

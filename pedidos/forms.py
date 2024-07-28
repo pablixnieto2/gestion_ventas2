@@ -1,14 +1,28 @@
+# pedidos/forms.py
+
 from django import forms
-from .models import Pedido
+from django.forms import inlineformset_factory
+from .models import Pedido, PedidoProducto
+from productos.models import ProductoVenta
 
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = [
-            'id_pedido', 'created_by', 'creation_date', 'cliente', 
-            'productos', 'estado_pedido', 'total_a_pagar', 
-            'total_pagado', 'pendiente_de_pago', 'direccion_envio', 'comentarios'
-        ]
+        fields = ['cliente', 'estado_pedido', 'comentarios']
+
+class PedidoProductoForm(forms.ModelForm):
+    class Meta:
+        model = PedidoProducto
+        fields = ['producto', 'cantidad', 'precio_unitario']
         widgets = {
-            'estado_pedido': forms.Select(choices=Pedido.ESTADO_PEDIDO_CHOICES),
+            'precio_unitario': forms.TextInput(attrs={'readonly': 'readonly'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['producto'].queryset = ProductoVenta.objects.filter(categoria='Recuerdos')
+        self.fields['producto'].widget.attrs.update({
+            'onchange': 'updatePriceUnitario(this)'
+        })
+
+PedidoProductoFormSet = inlineformset_factory(Pedido, PedidoProducto, form=PedidoProductoForm, extra=1)

@@ -1,10 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
-from django_select2 import urls as select2_urls
+from django_select2 import urls #as select2_urls
 from gestion_ventas2.views import home  # Asegúrate de que la vista home esté correctamente importada
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('', home, name='home'),
     path('clientes/', include('clientes.urls', namespace='clientes')),
     path('productos/', include('productos.urls', namespace='productos')),
@@ -13,5 +15,7 @@ urlpatterns = [
     path('pedidos/', include('pedidos.urls', namespace='pedidos')),
     path('sesiones_fotos/', include('sesiones_fotos.urls', namespace='sesiones_fotos')),
     path('usuarios/', include('usuarios.urls', namespace='usuarios')),
-    path('select2/', include(select2_urls)),  # Incluye esta línea
+    path('accounts/', include('django.contrib.auth.urls')),  # Agrega esta línea
+    #path('select2/', include(select2_urls)),  # Incluye esta línea
+    path('select2/', include('django_select2.urls')),  # Asegúrate de incluir esta línea
 ]

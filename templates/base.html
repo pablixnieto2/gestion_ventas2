@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Gestion Ventas{% endblock %}</title>
-    {% load static %}  <!-- Asegúrate de cargar las etiquetas estáticas aquí -->
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     {% block extra_head %}{% endblock %}
@@ -23,20 +23,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clientes:cliente-list' %}">Clientes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'productos:producto-list' %}">Productos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Productos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'productos:producto-venta-list' %}">Productos de Venta</a>
+                        <a class="dropdown-item" href="{% url 'productos:producto-alquiler-list' %}">Productos de Alquiler</a>
+                        <a class="dropdown-item" href="{% url 'sesiones_fotos:sesionfoto-list' %}">Sesiones de Fotos</a>
+                        <a class="dropdown-item" href="{% url 'pedidos:pedido-list' %}">Pedidos</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'ventas:venta-list' %}">Ventas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'pagos:pago-list' %}">Pagos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pedidos:pedido-list' %}">Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'sesiones_fotos:sesionfoto-list' %}">Sesiones de Fotos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'usuarios:usuario-list' %}">Usuarios</a>

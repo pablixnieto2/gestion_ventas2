@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import VentaListView, VentaDetailView, VentaCreateView, VentaUpdateView, VentaDeleteView
+from productos.views import get_producto_precio
 
 app_name = 'ventas'
 
@@ -9,4 +10,5 @@ urlpatterns = [
     path('<str:pk>/', VentaDetailView.as_view(), name='venta-detail'),
     path('<str:pk>/update/', VentaUpdateView.as_view(), name='venta-update'),
     path('<str:pk>/delete/', VentaDeleteView.as_view(), name='venta-delete'),
+    path('api/productos/<uuid:pk>/precio/', get_producto_precio, name='producto-precio'),
 ]

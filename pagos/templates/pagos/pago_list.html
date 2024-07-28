@@ -19,6 +19,7 @@
         </thead>
         <tbody>
             {% for pago in pagos %}
+                {% if pago.pk %}
                 <tr>
                     <td>{{ pago.id_pago }}</td>
                     <td>{{ pago.venta.id_venta }}</td>
@@ -30,6 +31,11 @@
                         <a href="{% url 'pagos:pago-delete' pago.pk %}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">Pago sin identificador válido</td>
+                </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
